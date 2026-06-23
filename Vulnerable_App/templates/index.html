@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insecure Login Portal // Vulnerable App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #2c1d1d;
+            color: #ffcccc;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #3d2929;
+            border: 2px solid #ff3333;
+            border-radius: 8px;
+            padding: 30px;
+            width: 380px;
+            box-shadow: 0 0 20px rgba(255, 51, 51, 0.3);
+        }
+        h2 { text-align: center; color: #ff5555; margin-bottom: 20px; }
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #1a1111;
+            border: 1px solid #ff5555;
+            color: #fff;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #ff3333;
+            border: none;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        input[type="submit"]:hover { background-color: #cc0000; }
+        .error { color: #ff5555; text-align: center; font-weight: bold; margin-bottom: 10px; }
+        .toggle-form { text-align: center; margin-top: 15px; font-size: 0.9em; }
+        .toggle-link { color: #ff8888; cursor: pointer; text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Login Form -->
+        <div id="login-form-div">
+            <h2>INSECURE LOGIN SYSTEM</h2>
+            {% if error %}
+                <div class="error">{{ error }}</div>
+            {% endif %}
+            <form action="/login" method="POST">
+                <label>Username:</label>
+                <input type="text" name="username" placeholder="Enter username" required>
+                <label>Password:</label>
+                <input type="password" name="password" placeholder="Enter password" required>
+                <input type="submit" value="Log In">
+            </form>
+            <div class="toggle-form">
+                Don't have an account? <span class="toggle-link" onclick="toggleForm()">Register here</span>
+            </div>
+        </div>
+
+        <!-- Registration Form (Hidden by default) -->
+        <div id="register-form-div" style="display: none;">
+            <h2>REGISTER ACCOUNT</h2>
+            <form action="/register" method="POST">
+                <label>Desired Username:</label>
+                <input type="text" name="username" placeholder="Username" required>
+                <label>Desired Password:</label>
+                <input type="password" name="password" placeholder="Password" required>
+                <input type="submit" value="Sign Up">
+            </form>
+            <div class="toggle-form">
+                Already have an account? <span class="toggle-link" onclick="toggleForm()">Log in here</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleForm() {
+            var loginDiv = document.getElementById('login-form-div');
+            var registerDiv = document.getElementById('register-form-div');
+            if (loginDiv.style.display === 'none') {
+                loginDiv.style.display = 'block';
+                registerDiv.style.display = 'none';
+            } else {
+                loginDiv.style.display = 'none';
+                registerDiv.style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>

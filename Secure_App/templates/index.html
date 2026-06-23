@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Login Portal // Hardened App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #0f172a;
+            color: #cbd5e1;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #1e293b;
+            border: 2px solid #10b981;
+            border-radius: 8px;
+            padding: 30px;
+            width: 380px;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.25);
+        }
+        h2 { text-align: center; color: #10b981; margin-bottom: 20px; }
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #0f172a;
+            border: 1px solid #475569;
+            color: #fff;
+            border-radius: 4px;
+            box-sizing: border-box;
+            transition: border-color 0.2s;
+        }
+        input[type="text"]:focus, input[type="password"]:focus {
+            border-color: #10b981;
+            outline: none;
+        }
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #10b981;
+            border: none;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 4px;
+            margin-top: 10px;
+            transition: background-color 0.2s;
+        }
+        input[type="submit"]:hover { background-color: #059669; }
+        .error { color: #f87171; text-align: center; font-weight: bold; margin-bottom: 10px; }
+        .toggle-form { text-align: center; margin-top: 15px; font-size: 0.9em; color: #94a3b8; }
+        .toggle-link { color: #34d399; cursor: pointer; text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Secure Login Form -->
+        <div id="login-form-div">
+            <h2>SECURE LOGIN SYSTEM</h2>
+            {% if error %}
+                <div class="error">{{ error }}</div>
+            {% endif %}
+            <form action="/login" method="POST">
+                <label>Username:</label>
+                <input type="text" name="username" placeholder="Alphanumeric username" required autocomplete="off">
+                <label>Password:</label>
+                <input type="password" name="password" placeholder="Password" required>
+                <input type="submit" value="Secure Log In">
+            </form>
+            <div class="toggle-form">
+                Don't have an account? <span class="toggle-link" onclick="toggleForm()">Register here</span>
+            </div>
+        </div>
+
+        <!-- Secure Registration Form -->
+        <div id="register-form-div" style="display: none;">
+            <h2>REGISTER ACCOUNT</h2>
+            <form action="/register" method="POST">
+                <label>Username:</label>
+                <input type="text" name="username" placeholder="Alphanumeric, 3-20 chars" required>
+                <label>Password:</label>
+                <input type="password" name="password" placeholder="Min 8 chars (A-Z, a-z, 0-9, symbol)" required>
+                <input type="submit" value="Register Account">
+            </form>
+            <div class="toggle-form">
+                Already have an account? <span class="toggle-link" onclick="toggleForm()">Log in here</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleForm() {
+            var loginDiv = document.getElementById('login-form-div');
+            var registerDiv = document.getElementById('register-form-div');
+            if (loginDiv.style.display === 'none') {
+                loginDiv.style.display = 'block';
+                registerDiv.style.display = 'none';
+            } else {
+                loginDiv.style.display = 'none';
+                registerDiv.style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>

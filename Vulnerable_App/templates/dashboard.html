@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insecure Dashboard // Vulnerable App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #2c1d1d;
+            color: #ffcccc;
+            margin: 0;
+            padding: 30px;
+        }
+        .dashboard-box {
+            background-color: #3d2929;
+            border: 2px solid #ff3333;
+            border-radius: 8px;
+            padding: 30px;
+            max-width: 600px;
+            margin: 0 auto;
+            box-shadow: 0 0 20px rgba(255, 51, 51, 0.3);
+        }
+        h2 { color: #ff5555; border-bottom: 1px solid #ff3333; padding-bottom: 10px; }
+        .user-greeting { font-size: 1.2em; margin-bottom: 20px; }
+        textarea {
+            width: 100%;
+            height: 120px;
+            background-color: #1a1111;
+            border: 1px solid #ff5555;
+            color: #fff;
+            padding: 10px;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-family: monospace;
+            margin-bottom: 15px;
+        }
+        input[type="submit"] {
+            background-color: #ff3333;
+            border: none;
+            color: #fff;
+            padding: 10px 20px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        input[type="submit"]:hover { background-color: #cc0000; }
+        .notes-display {
+            background-color: #1a1111;
+            border-left: 4px solid #ff3333;
+            padding: 15px;
+            margin-top: 25px;
+            border-radius: 4px;
+            color: #fff;
+        }
+        .logout-btn {
+            display: inline-block;
+            margin-top: 20px;
+            color: #ff8888;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-box">
+        <h2>Vulnerable User Dashboard</h2>
+        <div class="user-greeting">Welcome back, <strong>{{ username }}</strong>!</div>
+
+        <!-- Stored XSS Vector input -->
+        <form action="/update_notes" method="POST">
+            <label><strong>Edit Profile Bio/Notes:</strong> (Plain HTML Allowed)</label>
+            <textarea name="notes" placeholder="Update your notes here...">{{ notes }}</textarea>
+            <input type="submit" value="Update Profile Notes">
+        </form>
+
+        <!-- Stored XSS Render Area -->
+        <div class="notes-display">
+            <h4>Live Profile Output:</h4>
+            <!-- VULNERABILITY: Stored XSS due to disabling HTML escaping with 'safe' filter -->
+            <p>{{ notes | safe }}</p>
+        </div>
+
+        <a href="/logout" class="logout-btn">Log Out Session</a>
+    </div>
+</body>
+</html>
